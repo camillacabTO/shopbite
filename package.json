@@ -1,0 +1,31 @@
+{
+  "name": "shopbite",
+  "version": "1.0.0",
+  "description": "eCommerce website",
+  "main": "backend/server.js",
+  "type": "module",
+  "scripts": {
+    "server": "nodemon backend/server",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/camillacabTO/shopbite.git"
+  },
+  "keywords": [
+    "ecommerce"
+  ],
+  "author": "Camila Barros",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/camillacabTO/shopbite/issues"
+  },
+  "homepage": "https://github.com/camillacabTO/shopbite#readme",
+  "dependencies": {
+    "concurrently": "^6.0.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.12.3"
+  }
+}

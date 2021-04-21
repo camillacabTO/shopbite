@@ -1,8 +1,9 @@
 // import express from 'express'
 import express from 'express'
 import dotenv from 'dotenv'
-import products from './data/products.js'
 import connectToDB from './database/db.js'
+import productRoutes from './routes/products.js'
+import { notFound, errorHandler } from './middleware/error.js'
 
 dotenv.config()
 connectToDB()
@@ -10,14 +11,9 @@ connectToDB()
 const app = express()
 const PORT = process.env.PORT || 5000
 
-app.get('/api/products', (req, res) => {
-  res.json(products)
-})
-
-app.get('/api/products/:id', (req, res) => {
-  const product = products.find(prod => prod._id === req.params.id)
-  res.json(product)
-})
+app.use('/api/products', productRoutes)
+app.use(notFound)
+app.use(errorHandler)
 
 app.listen(PORT, () =>
   console.log(

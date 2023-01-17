@@ -8,14 +8,16 @@ import {
   Button,
   Form,
 } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import Rating from '../components/Rating';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProductDetails } from '../actions/productActions';
 
-const ProductDetails = ({ match, history }) => {
+const ProductDetails = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [qty, setQty] = useState(1);
   const dispatch = useDispatch();
   const { product, loading, error } = useSelector(
@@ -23,11 +25,11 @@ const ProductDetails = ({ match, history }) => {
   );
   // grab from the state
   useEffect(() => {
-    dispatch(fetchProductDetails(match.params.id));
-  }, [match, dispatch]);
+    dispatch(fetchProductDetails(id));
+  }, [id, dispatch]);
 
   const addToCartHandler = () => {
-    history.push(`/cart/${match.params.id}?qty=${qty}`);
+    navigate(`/cart/${id}?qty=${qty}`);
     //pass prod id and qty (query string)
   };
 

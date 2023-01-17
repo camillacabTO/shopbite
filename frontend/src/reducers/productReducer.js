@@ -1,49 +1,39 @@
-import {
-  PRODUCT_LIST_FETCH,
-  PRODUCT_LIST_SUCCESS,
-  PRODUCT_LIST_FAIL,
-  PRODUCT_DETAILS_FETCH,
-  PRODUCT_DETAILS_SUCCESS,
-  PRODUCT_DETAILS_FAIL,
-} from '../constants/productConstants';
+import { createSlice } from '@reduxjs/toolkit';
 
-// delete constants. Create slice (reducer + actions). Add initial state (default state objects)
-// add store provider in App.js. configure store.js (add reducers)
-
-const productsDefaultState = { products: [], loading: false, error: null };
-
-export const productListReducer = (state = productsDefaultState, action) => {
-  switch (action.type) {
-    case PRODUCT_LIST_FETCH:
-      return { loading: true, products: [] };
-    case PRODUCT_LIST_SUCCESS:
-      return { loading: false, products: action.payload };
-    case PRODUCT_LIST_FAIL:
-      return { loading: false, error: action.payload };
-    default:
-      return state;
-  }
-};
-
-const productDefaultState = {
+const productInitialState = {
   product: { reviews: [] },
-  loading: false,
+  loading: 'idle',
   error: null,
 };
-// a default product has a empty array of reviews
 
-export const productDetailsReducer = (state = productDefaultState, action) => {
-  switch (action.type) {
-    case PRODUCT_DETAILS_FETCH:
-      return { loading: true, ...state };
-    //add the default product info
-    case PRODUCT_DETAILS_SUCCESS:
-      return { loading: false, product: action.payload };
-    case PRODUCT_DETAILS_FAIL:
-      return { loading: false, error: action.payload };
-    default:
-      return state;
-  }
-};
+const productDetailsSlice = createSlice({
+  name: 'productList',
+  initialState: productInitialState,
+  reducers: {
+    productDetailsFetch(state) {
+      if (state.loading === 'idle') {
+        state.loading = 'pending';
+      }
+    },
+    productDetailsSuccess(state, action) {
+      if (state.loading === 'pending') {
+        state.loading = 'idle';
+      }
+      state.product = action.payload;
+    },
+    productDetailsFail(state, action) {
+      if (state.loading === 'pending') {
+        state.loading = 'idle';
+      }
+      state.error = action.payload;
+    },
+  },
+});
 
-// export actions and reducers separetely
+export const {
+  productDetailsFetch,
+  productDetailsSuccess,
+  productDetailsFail,
+} = productDetailsSlice.actions;
+
+export default productDetailsSlice.reducer;

@@ -1,25 +1,35 @@
-import React, { useState, useEffect } from 'react'
-import { Row, Col, ListGroup, Image, Card, Button, Form } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
-import Rating from '../components/Rating'
-import Message from '../components/Message'
-import Loader from '../components/Loader'
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchProductDetails } from '../actions/productActions'
+import React, { useState, useEffect } from 'react';
+import {
+  Row,
+  Col,
+  ListGroup,
+  Image,
+  Card,
+  Button,
+  Form,
+} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import Rating from '../components/Rating';
+import Message from '../components/Message';
+import Loader from '../components/Loader';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProductDetails } from '../actions/productActions';
 
 const ProductDetails = ({ match, history }) => {
-  const [qty, setQty] = useState(1)
-  const dispatch = useDispatch()
-  const { product, loading, error } = useSelector(state => state.productDetails)
+  const [qty, setQty] = useState(1);
+  const dispatch = useDispatch();
+  const { product, loading, error } = useSelector(
+    (state) => state.productDetails
+  );
   // grab from the state
   useEffect(() => {
-    dispatch(fetchProductDetails(match.params.id))
-  }, [match, dispatch])
+    dispatch(fetchProductDetails(match.params.id));
+  }, [match, dispatch]);
 
   const addToCartHandler = () => {
-    history.push(`/cart/${match.params.id}?qty=${qty}`)
+    history.push(`/cart/${match.params.id}?qty=${qty}`);
     //pass prod id and qty (query string)
-  }
+  };
 
   return (
     <div>
@@ -27,7 +37,7 @@ const ProductDetails = ({ match, history }) => {
         {/* btn btn-secondary */}
         Go Back
       </Link>
-      {loading ? (
+      {loading === 'pending' ? (
         <Loader />
       ) : error ? (
         <Message variant='danger'>{error}</Message>
@@ -89,9 +99,9 @@ const ProductDetails = ({ match, history }) => {
                         <Form.Control
                           as='select'
                           value={qty}
-                          onChange={e => setQty(e.target.value)}
+                          onChange={(e) => setQty(e.target.value)}
                         >
-                          {[...Array(product.numInStock).keys()].map(num => (
+                          {[...Array(product.numInStock).keys()].map((num) => (
                             <option key={num + 1} value={num + 1}>
                               {num + 1}
                             </option>
@@ -117,7 +127,7 @@ const ProductDetails = ({ match, history }) => {
         </Row>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default ProductDetails
+export default ProductDetails;

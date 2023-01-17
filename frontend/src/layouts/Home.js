@@ -1,30 +1,31 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Row, Col } from 'react-bootstrap'
-import Product from '../components/Product'
-import Message from '../components/Message'
-import Loader from '../components/Loader'
-import { fetchProducts } from '../actions/productActions'
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Row, Col } from 'react-bootstrap';
+import Product from '../components/Product';
+import Message from '../components/Message';
+import Loader from '../components/Loader';
+import { fetchProducts } from '../actions/productActions';
 
 const Home = () => {
-  const dispatch = useDispatch()
-  const productList = useSelector(state => state.productList)
-  const { loading, error, products } = productList
-  //selects a piece of the global state(store/reducer)
+  const dispatch = useDispatch();
+  const { loading, error, products } = useSelector(
+    (state) => state.productList
+  );
+
   useEffect(() => {
-    dispatch(fetchProducts())
-  }, [dispatch])
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
   return (
     <>
       <h1>Featured Items</h1>
-      {loading ? ( // if its loading
+      {loading === 'pending' ? ( // if its loading
         <Loader />
       ) : error ? ( // if not loading but there is an error
         <Message variant='danger'>{error}</Message>
       ) : (
         <Row>
-          {products.map(product => (
+          {products.map((product) => (
             <Col key={product._id} m={12} md={6} lg={4} xl={3}>
               <Product product={product} />
             </Col>
@@ -32,7 +33,7 @@ const Home = () => {
         </Row>
       )}
     </>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

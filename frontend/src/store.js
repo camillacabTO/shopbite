@@ -1,11 +1,15 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import thunk from 'redux-thunk'
-import { productListReducer } from './reducers/productList'
+import {
+  productListReducer,
+  productDetailsReducer
+} from './reducers/productReducer'
 
 const middleware = [thunk]
 const rootReducer = combineReducers({
-  productList: productListReducer
+  productList: productListReducer,
+  productDetails: productDetailsReducer
 })
 const initialState = {}
 // loads when Redux is initialized

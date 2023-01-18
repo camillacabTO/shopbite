@@ -2,7 +2,13 @@ main {
   height: auto;
 }
 
-h3 {
+h1 {
+  font-size: 1.9rem;
+  padding: 1rem 0;
+}
+
+h3, h2 {
+  font-size: 1.5rem;
   padding: 1rem 0;
 }
 

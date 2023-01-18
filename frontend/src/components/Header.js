@@ -1,6 +1,6 @@
-import React from 'react'
-import { Container, Navbar, Nav } from 'react-bootstrap'
-import { LinkContainer } from 'react-router-bootstrap'
+import React from 'react';
+import { Container, Navbar, Nav } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 
 const Header = () => {
   return (
@@ -21,7 +21,7 @@ const Header = () => {
               </LinkContainer>
               <LinkContainer to='/login'>
                 <Nav.Link>
-                  <i className='fas fa-user'></i> SIGN IN
+                  <i className='fas fa-user'></i> LOG IN
                 </Nav.Link>
               </LinkContainer>
             </Nav>
@@ -29,7 +29,7 @@ const Header = () => {
         </Container>
       </Navbar>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

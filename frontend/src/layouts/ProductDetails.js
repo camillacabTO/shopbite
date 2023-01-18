@@ -18,7 +18,7 @@ import { fetchProductDetails } from '../actions/productActions';
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [qty, setQty] = useState(1);
+  const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
   const { product, loading, error } = useSelector(
     (state) => state.productDetails
@@ -28,8 +28,8 @@ const ProductDetails = () => {
     dispatch(fetchProductDetails(id));
   }, [id, dispatch]);
 
-  const addToCartHandler = () => {
-    navigate(`/cart/${id}?qty=${qty}`);
+  const submitHandler = () => {
+    navigate(`/cart/${id}?qty=${quantity}`);
     //pass prod id and qty (query string)
   };
 
@@ -100,8 +100,8 @@ const ProductDetails = () => {
                       <Col>
                         <Form.Control
                           as='select'
-                          value={qty}
-                          onChange={(e) => setQty(e.target.value)}
+                          value={quantity}
+                          onChange={(e) => setQuantity(e.target.value)}
                         >
                           {[...Array(product.numInStock).keys()].map((num) => (
                             <option key={num + 1} value={num + 1}>
@@ -115,7 +115,7 @@ const ProductDetails = () => {
                 )}
                 <ListGroup.Item>
                   <Button
-                    onClick={addToCartHandler}
+                    onClick={submitHandler}
                     className='primary btn-block'
                     type='button'
                     disabled={product.numInStock <= 0}

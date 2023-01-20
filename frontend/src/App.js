@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import Home from './layouts/Home';
 import Cart from './layouts/Cart';
 import ProductDetails from './layouts/ProductDetails';
+import { Login } from './layouts/Login';
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
             <Route path='/' element={<Home />} />
             <Route path='/product/:id' element={<ProductDetails />} />
             <Route path='/cart/:id?' element={<Cart />} />
+            <Route path='/login' element={<Login />} />
           </Routes>
         </Container>
       </main>

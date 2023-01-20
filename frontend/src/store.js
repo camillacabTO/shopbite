@@ -2,16 +2,22 @@ import { configureStore } from '@reduxjs/toolkit';
 import productListReducer from './reducers/productsReducer';
 import productDetailsReducer from './reducers/productReducer';
 import cartReducer from './reducers/cartReducer';
+import { userLoginReducer } from './reducers/userReducer';
 
 const itemsInCartFromStorage = localStorage.getItem('itemsInCart')
   ? JSON.parse(localStorage.getItem('itemsInCart'))
   : [];
 
+const userInfoFromStorage = localStorage.getItem('itemsInCart')
+  ? JSON.parse(localStorage.getItem('userInfo'))
+  : null;
+
+//preloading any cart saved in the localStorage
 const initialState = {
   cart: {
     itemsInCart: itemsInCartFromStorage,
-    //preloading any cart saved in the localStorage
   },
+  userLogin: { user: userInfoFromStorage },
 };
 
 export const store = configureStore({
@@ -19,6 +25,7 @@ export const store = configureStore({
     productList: productListReducer,
     productDetails: productDetailsReducer,
     cart: cartReducer,
+    userLogin: userLoginReducer,
   },
   preloadedState: initialState,
 });

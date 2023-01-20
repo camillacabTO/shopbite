@@ -1,5 +1,5 @@
 main {
-  height: auto;
+  min-height: 85vh;
 }
 
 h1 {
@@ -12,11 +12,16 @@ h3, h2 {
   padding: 1rem 0;
 }
 
-/* footer {
+footer {
   height: 7vh;
-  background: red;
-} */
+  background: #EEE;
+}
 
 .rating span {
   margin: 0.1rem;
+}
+
+
+label {
+  margin-bottom: 0.8rem;
 }

@@ -1,8 +1,39 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const userSignupInitialState = { user: null, loading: 'idle', error: null };
+const userSignupSlice = createSlice({
+  name: 'userSignup',
+  initialState: userSignupInitialState,
+  reducers: {
+    signupUserRequest(state) {
+      if (state.loading === 'idle') {
+        state.loading = 'pending';
+      }
+    },
+    signupUserSuccess(state, action) {
+      if (state.loading === 'pending') {
+        state.loading = 'idle';
+      }
+      state.user = action.payload;
+      state.error = null;
+    },
+    signupUserFail(state, action) {
+      if (state.loading === 'pending') {
+        state.loading = 'idle';
+      }
+      state.error = action.payload;
+    },
+  },
+});
+
+export const userSignupReducer = userSignupSlice.reducer;
+
+export const { signupUserRequest, signupUserSuccess, signupUserFail } =
+  userSignupSlice.actions;
+
 const userLoginInitialState = { user: null, loading: 'idle', error: null };
 const userLoginSlice = createSlice({
-  name: 'user',
+  name: 'userLogin',
   initialState: userLoginInitialState,
   reducers: {
     loginUserRequest(state) {
@@ -23,13 +54,61 @@ const userLoginSlice = createSlice({
       }
       state.error = action.payload;
     },
-    logoutUser(state) {
-      state = {};
+    logoutUserRequest(state) {
+      state.user = null;
+      state.loading = 'idle';
+      state.error = null;
     },
   },
 });
 
 export const userLoginReducer = userLoginSlice.reducer;
 
-export const { loginUserRequest, loginUserSuccess, loginUserFail, logoutUser } =
-  userLoginSlice.actions;
+export const {
+  loginUserRequest,
+  loginUserSuccess,
+  loginUserFail,
+  logoutUserRequest,
+} = userLoginSlice.actions;
+
+const userDetailsInitialState = { user: {}, loading: 'idle', error: null };
+const userDetailsSlice = createSlice({
+  name: 'userDetails',
+  initialState: userDetailsInitialState,
+  reducers: {
+    userDetailsRequest(state) {
+      if (state.loading === 'idle') {
+        state.loading = 'pending';
+      }
+    },
+    userDetailsSuccess(state, action) {
+      if (state.loading === 'pending') {
+        state.loading = 'idle';
+      }
+      state.user = action.payload;
+      state.error = null;
+    },
+    userDetailsFail(state, action) {
+      if (state.loading === 'pending') {
+        state.loading = 'idle';
+      }
+      state.error = action.payload;
+    },
+    userDetailsReset(state) {
+      if (state.loading === 'pending') {
+        state.loading = 'idle';
+      }
+      state.error = null;
+      state.user = {};
+    },
+  },
+});
+
+export const userDetailsReducer = userDetailsSlice.reducer;
+
+export const {
+  userDetailsRequest,
+  userDetailsSuccess,
+  userDetailsFail,
+  userDetailsReset,
+} = userDetailsSlice.actions;

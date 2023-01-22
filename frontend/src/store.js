@@ -2,7 +2,11 @@ import { configureStore } from '@reduxjs/toolkit';
 import productListReducer from './reducers/productsReducer';
 import productDetailsReducer from './reducers/productReducer';
 import cartReducer from './reducers/cartReducer';
-import { userLoginReducer } from './reducers/userReducer';
+import {
+  userLoginReducer,
+  userSignupReducer,
+  userDetailsReducer,
+} from './reducers/userReducer';
 
 const itemsInCartFromStorage = localStorage.getItem('itemsInCart')
   ? JSON.parse(localStorage.getItem('itemsInCart'))
@@ -26,6 +30,8 @@ export const store = configureStore({
     productDetails: productDetailsReducer,
     cart: cartReducer,
     userLogin: userLoginReducer,
+    userSignup: userSignupReducer,
+    userDetails: userDetailsReducer,
   },
   preloadedState: initialState,
 });

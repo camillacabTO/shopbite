@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import FormContainer from '../components/FormContainer';
-import { loginUser } from '../actions/userActions';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { signupUser } from '../actions/userActions';
 
-const Login = () => {
+const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [name, setName] = useState('');
+  const [message, setMessage] = useState(null);
+
+  const dispatch = useDispatch();
+  const { user, loading, error } = useSelector((state) => state.userSignup);
 
   const [searchParams] = useSearchParams();
   const redirect = searchParams.get('redirect')
@@ -17,24 +23,25 @@ const Login = () => {
     : '/';
   const navigate = useNavigate();
 
-  const { loading, error, user } = useSelector((state) => state.userLogin);
-  const dispatch = useDispatch();
-
   useEffect(() => {
     if (user) {
       navigate(redirect);
     }
-    // if user already logged, redirect to router in the query params, if no redirect value, go to home page
   }, [navigate, redirect, user]);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(loginUser(email, password));
+    if (password !== confirmPassword) {
+      setMessage('Passwords do not match');
+    } else {
+      dispatch(signupUser(email, password, name));
+    }
   };
 
   return (
     <FormContainer>
-      <h1>Log In</h1>
+      <h1>Sign Up</h1>
+      {message && <Message variant='danger'>{message}</Message>}
       {error && <Message variant='danger'>{error}</Message>}
       {loading === 'pending' ? <Loader /> : null}
       <Form onSubmit={submitHandler}>
@@ -49,7 +56,7 @@ const Login = () => {
         </Form.Group>
 
         <Form.Group controlId='password'>
-          <Form.Label>Enter Password:</Form.Label>
+          <Form.Label>Password:</Form.Label>
           <Form.Control
             type='password'
             placeholder='Enter password'
@@ -58,16 +65,36 @@ const Login = () => {
           ></Form.Control>
         </Form.Group>
 
+        <Form.Group controlId='confirmPassword'>
+          <Form.Label>Confirm Password:</Form.Label>
+          <Form.Control
+            type='password'
+            placeholder='Confirm password'
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
+
+        <Form.Group controlId='name'>
+          <Form.Label>Name:</Form.Label>
+          <Form.Control
+            type='name'
+            placeholder='Enter your name'
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
+
         <Button type='submit' variant='primary'>
-          Sign In
+          Register
         </Button>
       </Form>
 
       <Row className='py-3'>
         <Col>
-          Are You a New Customer? {'  '}
-          <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>
-            Sign Up
+          Already Have an Account?{'  '}
+          <Link to={redirect ? `/login?redirect=${redirect}` : '/login'}>
+            Login Here
           </Link>
         </Col>
       </Row>
@@ -75,4 +102,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;

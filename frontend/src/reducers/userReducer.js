@@ -112,3 +112,53 @@ export const {
   userDetailsFail,
   userDetailsReset,
 } = userDetailsSlice.actions;
+
+// used to update user profile
+const userUpdateInitialState = {
+  user: {},
+  loading: 'idle',
+  error: null,
+  updated: false,
+};
+const userUpdateSlice = createSlice({
+  name: 'userUpdate',
+  initialState: userUpdateInitialState,
+  reducers: {
+    userUpdateRequest(state) {
+      if (state.loading === 'idle') {
+        state.loading = 'pending';
+      }
+    },
+    userUpdateSuccess(state, action) {
+      if (state.loading === 'pending') {
+        state.loading = 'idle';
+      }
+      state.user = action.payload;
+      state.updated = true;
+      state.error = null;
+    },
+    userUpdateFail(state, action) {
+      if (state.loading === 'pending') {
+        state.loading = 'idle';
+      }
+      state.error = action.payload;
+    },
+    userUpdateReset(state) {
+      if (state.loading === 'pending') {
+        state.loading = 'idle';
+      }
+      state.error = null;
+      state.updated = false;
+      state.user = {};
+    },
+  },
+});
+
+export const userUpdateReducer = userUpdateSlice.reducer;
+
+export const {
+  userUpdateRequest,
+  userUpdateSuccess,
+  userUpdateFail,
+  userUpdateReset,
+} = userUpdateSlice.actions;

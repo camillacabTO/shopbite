@@ -4,7 +4,8 @@ import { LinkContainer } from 'react-router-bootstrap';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserDetails } from '../actions/userActions';
+import { getUserDetails, updateUserProfile } from '../actions/userActions';
+import { userUpdateReset } from '../reducers/userReducer.js';
 import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
@@ -24,6 +25,8 @@ const Profile = () => {
   } = useSelector((state) => state.userDetails);
 
   const { user: userLoginInfo } = useSelector((state) => state.userLogin);
+  const { updated } = useSelector((state) => state.userUpdate);
+  // confirms if user has been updated
 
   // const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
   // const { success } = userUpdateProfile;
@@ -36,8 +39,8 @@ const Profile = () => {
       // check if user is logged in using the userLoginReducer
       navigate('/login');
     } else {
-      if (!userDetails.name) {
-        // dispatch({ type: USER_UPDATE_PROFILE_RESET });
+      if (!userDetails || !userDetails.name || updated) {
+        dispatch(userUpdateReset());
         dispatch(getUserDetails('profile'));
         //hit the end point api/users/profile (to fetch the profile of current user)
         // dispatch(listMyOrders());
@@ -46,15 +49,14 @@ const Profile = () => {
         setEmail(userDetails.email);
       }
     }
-  }, [dispatch, userDetails, navigate, userLoginInfo]);
+  }, [dispatch, userDetails, navigate, userLoginInfo, updated]);
 
   const submitHandler = (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      setMessage('Passwords do not match');
-    } else {
-      // dispatch(updateUserProfile({ id: user._id, name, email, password }));
+      return setMessage('Passwords do not match');
     }
+    dispatch(updateUserProfile({ id: userDetails._id, name, email, password }));
   };
 
   return (
@@ -62,7 +64,7 @@ const Profile = () => {
       <Col md={3}>
         <h2>User Profile</h2>
         {message && <Message variant='danger'>{message}</Message>}
-        {/* {success && <Message variant='success'>Profile Updated</Message>} */}
+        {updated && <Message variant='success'>Profile Updated</Message>}
         {loading === 'pending' ? (
           <Loader />
         ) : error ? (
@@ -78,6 +80,7 @@ const Profile = () => {
                 onChange={(e) => setName(e.target.value)}
               ></Form.Control>
             </Form.Group>
+
             <Form.Group controlId='email'>
               <Form.Label>Email Address:</Form.Label>
               <Form.Control

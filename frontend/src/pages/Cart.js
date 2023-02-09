@@ -33,7 +33,7 @@ const Cart = () => {
   }, [dispatch, productID, qty]);
 
   const handleCheckout = () => {
-    navigate('/login?redirect=shipping');
+    navigate('/shipping');
     // if user is logged in will go to shipping, if not, to the login page
   };
 

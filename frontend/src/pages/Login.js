@@ -65,8 +65,9 @@ const Login = () => {
 
       <Row className='py-3'>
         <Col>
-          Are You a New Customer? {'  '}
-          <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>
+          Are You a New Customer?{'  '}
+          <Link to={redirect ? `/signup?redirect=${redirect}` : '/signup'}>
+            {/* delete this? */}
             Sign Up
           </Link>
         </Col>

@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import connectToDB from './database/db.js';
 import productRoutes from './routes/productsRoutes.js';
 import userRoutes from './routes/usersRoutes.js';
+import orderRoutes from './routes/orderRoutes.js';
 import { notFound, errorHandler } from './middleware/error.js';
 
 dotenv.config();
@@ -16,9 +17,11 @@ app.use(express.json());
 
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/orders', orderRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
+// delete this?
 
 app.listen(PORT, () =>
   console.log(

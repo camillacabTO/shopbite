@@ -11,6 +11,7 @@ import Signup from './pages/Signup';
 import Profile from './pages/Profile';
 import Shipping from './pages/Shipping';
 import Payment from './pages/Payment';
+import SubmitOrder from './pages/SubmitOrder';
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
             <Route path='/cart/:id?' element={<Cart />} />
             <Route path='/shipping' element={<Shipping />} />
             <Route path='/payment' element={<Payment />} />
+            <Route path='/submitorder' element={<SubmitOrder />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<Signup />} />
             <Route path='/profile' element={<Profile />} />

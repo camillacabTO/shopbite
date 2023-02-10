@@ -23,16 +23,16 @@ const SubmitOrder = () => {
     return (Math.round(num * 100) / 100).toFixed(2);
   };
 
-  cart.itemsPrice = addDecimals(
+  const itemsPrice = addDecimals(
     cart.itemsInCart.reduce((acc, item) => acc + item.price * item.quantity, 0)
   );
 
-  cart.shippingPrice = addDecimals(cart.itemsPrice > 100 ? 0 : 100);
-  cart.taxPrice = addDecimals(Number((0.13 * cart.itemsPrice).toFixed(2)));
-  cart.totalPrice = (
-    Number(cart.itemsPrice) +
-    Number(cart.shippingPrice) +
-    Number(cart.taxPrice)
+  const shippingPrice = addDecimals(itemsPrice > 100 ? 0 : 100);
+  const taxPrice = addDecimals(Number((0.13 * itemsPrice).toFixed(2)));
+  const totalPrice = (
+    Number(itemsPrice) +
+    Number(shippingPrice) +
+    Number(taxPrice)
   ).toFixed(2);
 
   const { order, success, error } = useSelector((state) => state.orderCreate);
@@ -53,10 +53,10 @@ const SubmitOrder = () => {
         orderItems: cart.cartItems,
         shippingAddress: cart.shippingAddress,
         paymentMethod: cart.paymentMethod,
-        itemsPrice: cart.itemsPrice,
-        shippingPrice: cart.shippingPrice,
-        taxPrice: cart.taxPrice,
-        totalPrice: cart.totalPrice,
+        itemsPrice,
+        shippingPrice,
+        taxPrice,
+        totalPrice,
       })
     );
   };
@@ -124,25 +124,25 @@ const SubmitOrder = () => {
               <ListGroup.Item>
                 <Row>
                   <Col>Items</Col>
-                  <Col>${cart.itemsPrice}</Col>
+                  <Col>${itemsPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Shipping</Col>
-                  <Col>${cart.shippingPrice}</Col>
+                  <Col>${shippingPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Tax</Col>
-                  <Col>${cart.taxPrice}</Col>
+                  <Col>${taxPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Total</Col>
-                  <Col>${cart.totalPrice}</Col>
+                  <Col>${totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>

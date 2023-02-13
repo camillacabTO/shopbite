@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUserDetails, updateUserProfile } from '../actions/userActions';
 import { userUpdateReset } from '../reducers/userReducer.js';
 import { useNavigate } from 'react-router-dom';
+import { listUserOrders } from '../actions/orderActions';
 
 const Profile = () => {
   const [email, setEmail] = useState('');
@@ -26,13 +27,11 @@ const Profile = () => {
 
   const { user: userLoginInfo } = useSelector((state) => state.userLogin);
   const { updated } = useSelector((state) => state.userUpdate);
-  // confirms if user has been updated
-
-  // const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
-  // const { success } = userUpdateProfile;
-
-  // const orderListMy = useSelector((state) => state.orderListMy);
-  // const { loading: loadingOrders, error: errorOrders, orders } = orderListMy;
+  const {
+    loading: ordersLoading,
+    error: ordersError,
+    orders,
+  } = useSelector((state) => state.orderListUser);
 
   useEffect(() => {
     if (!userLoginInfo) {
@@ -43,10 +42,10 @@ const Profile = () => {
         dispatch(userUpdateReset());
         dispatch(getUserDetails('profile'));
         //hit the end point api/users/profile (to fetch the profile of current user)
-        // dispatch(listMyOrders());
       } else {
         setName(userDetails.name);
         setEmail(userDetails.email);
+        dispatch(listUserOrders());
       }
     }
   }, [dispatch, userDetails, navigate, userLoginInfo, updated]);
@@ -117,21 +116,20 @@ const Profile = () => {
           </Form>
         )}
       </Col>
-      {/* <Col md={9}>
+      <Col md={9}>
         <h2>My Orders</h2>
-        {loadingOrders ? (
+        {ordersLoading === 'pending' ? (
           <Loader />
-        ) : errorOrders ? (
-          <Message variant='danger'>{errorOrders}</Message>
+        ) : ordersError ? (
+          <Message variant='danger'>{ordersError}</Message>
         ) : (
           <Table striped bordered hover responsive className='table-sm'>
             <thead>
               <tr>
                 <th>ID</th>
-                <th>DATE</th>
+                <th>PLACED AT</th>
                 <th>TOTAL</th>
-                <th>PAID</th>
-                <th>DELIVERED</th>
+                <th>PAYMENT STATUS</th>
                 <th></th>
               </tr>
             </thead>
@@ -143,14 +141,10 @@ const Profile = () => {
                   <td>{order.totalPrice}</td>
                   <td>
                     {order.isPaid ? (
-                      order.paidAt.substring(0, 10)
-                    ) : (
-                      <i className='fas fa-times' style={{ color: 'red' }}></i>
-                    )}
-                  </td>
-                  <td>
-                    {order.isDelivered ? (
-                      order.deliveredAt.substring(0, 10)
+                      <i
+                        className='fas fa-check'
+                        style={{ color: 'green' }}
+                      ></i>
                     ) : (
                       <i className='fas fa-times' style={{ color: 'red' }}></i>
                     )}
@@ -158,7 +152,7 @@ const Profile = () => {
                   <td>
                     <LinkContainer to={`/order/${order._id}`}>
                       <Button className='btn-sm' variant='light'>
-                        Details
+                        See Order Details
                       </Button>
                     </LinkContainer>
                   </td>
@@ -167,7 +161,7 @@ const Profile = () => {
             </tbody>
           </Table>
         )}
-      </Col> */}
+      </Col>
     </Row>
   );
 };

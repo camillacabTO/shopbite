@@ -12,6 +12,7 @@ import Profile from './pages/Profile';
 import Shipping from './pages/Shipping';
 import Payment from './pages/Payment';
 import SubmitOrder from './pages/SubmitOrder';
+import Order from './pages/Order';
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <Container>
           <Routes>
             <Route path='/' element={<Home />} />
+            <Route path='/order/:id' element={<Order />} />
             <Route path='/product/:id' element={<ProductDetails />} />
             <Route path='/cart/:id?' element={<Cart />} />
             <Route path='/shipping' element={<Shipping />} />

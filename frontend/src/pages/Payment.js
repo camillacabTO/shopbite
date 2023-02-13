@@ -8,7 +8,7 @@ import { savePaymentMethod } from '../actions/cartActions';
 // import CheckoutSteps from '../components/CheckoutSteps'
 // import { savePaymentMethod } from '../actions/cartActions'
 
-const PaymentScreen = () => {
+const Payment = () => {
   const { shippingAddress } = useSelector((state) => state.cart);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -18,8 +18,13 @@ const PaymentScreen = () => {
   }
   const [paymentMethod, setPaymentMethod] = useState('Paypal');
 
+  const onOptionChange = (e) => {
+    setPaymentMethod(e.target.value);
+  };
+
   const submitHandler = (e) => {
     e.preventDefault();
+    console.log(paymentMethod);
     dispatch(savePaymentMethod(paymentMethod));
     navigate('/submitorder');
   };
@@ -35,11 +40,18 @@ const PaymentScreen = () => {
             <Form.Check
               type='radio'
               label='PayPal'
-              id='PayPal'
               name='paymentMethod'
               value='PayPal'
-              checked
-              onChange={(e) => setPaymentMethod(e.target.value)}
+              checked={paymentMethod === 'PayPal'}
+              onChange={onOptionChange}
+            ></Form.Check>
+            <Form.Check
+              type='radio'
+              label='Credit Card'
+              name='paymentMethod'
+              value='CreditCard'
+              checked={paymentMethod === 'CreditCard'}
+              onChange={onOptionChange}
             ></Form.Check>
           </Col>
         </Form.Group>
@@ -52,4 +64,4 @@ const PaymentScreen = () => {
   );
 };
 
-export default PaymentScreen;
+export default Payment;

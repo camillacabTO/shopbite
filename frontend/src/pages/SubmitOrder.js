@@ -5,6 +5,9 @@ import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { createOrder } from '../actions/orderActions';
 import { useNavigate } from 'react-router-dom';
+import { createOrderReset } from '../reducers/orderReducer';
+import { userDetailsReset } from '../reducers/userReducer';
+
 // import { ORDER_CREATE_RESET } from '../constants/orderConstants'
 // import { USER_DETAILS_RESET } from '../constants/userConstants'
 
@@ -40,17 +43,15 @@ const SubmitOrder = () => {
   useEffect(() => {
     if (success) {
       navigate(`/order/${order._id}`);
-      //   dispatch({ type: USER_DETAILS_RESET });
-      //   dispatch({ type: ORDER_CREATE_RESET });
-      // }
-      // eslint-disable-next-line
+      dispatch(createOrderReset());
+      dispatch(userDetailsReset());
     }
-  }, [success, navigate]);
+  }, [success, navigate, order._id]);
 
   const submitOrderHandler = () => {
     dispatch(
       createOrder({
-        orderItems: cart.cartItems,
+        items: cart.itemsInCart,
         shippingAddress: cart.shippingAddress,
         paymentMethod: cart.paymentMethod,
         itemsPrice,

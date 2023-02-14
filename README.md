@@ -16,7 +16,8 @@ _Under development_
 - React Router 6
 - React-Bootstrap UI library
 
-<br>
+  <br/>
+
 - Detailed Shopping Cart page
 - Product reviews and ratings
 - Product pagination

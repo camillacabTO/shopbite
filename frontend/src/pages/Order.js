@@ -39,7 +39,6 @@ const Order = () => {
       dispatch(orderPayReset());
       dispatch(getOrderDetails(orderId));
     }
-
     dispatch(getOrderDetails(orderId));
   }, [dispatch, orderId, navigate, user, paymentSuccess]);
 

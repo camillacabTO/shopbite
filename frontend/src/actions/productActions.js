@@ -3,6 +3,9 @@ import {
   productListFetch,
   productListSuccess,
   productListFail,
+  addReviewFetch,
+  addReviewSuccess,
+  addReviewFail,
 } from '../reducers/productsReducer';
 
 import {
@@ -10,6 +13,7 @@ import {
   productDetailsSuccess,
   productDetailsFail,
 } from '../reducers/productReducer';
+import { logoutUserRequest } from '../reducers/userReducer';
 
 export const fetchProducts = () => async (dispatch) => {
   try {
@@ -30,3 +34,34 @@ export const fetchProductDetails = (id) => async (dispatch) => {
     dispatch(productDetailsFail(error.message));
   }
 };
+
+export const createReview =
+  (productId, review) => async (dispatch, getState) => {
+    try {
+      dispatch(addReviewFetch());
+
+      const {
+        userLogin: { user },
+      } = getState();
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+
+      await axios.post(`/api/products/${productId}/reviews`, review, config);
+
+      dispatch(addReviewSuccess());
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      if (message === 'Not authorized') {
+        dispatch(logoutUserRequest());
+      }
+      dispatch(addReviewFail(message));
+    }
+  };

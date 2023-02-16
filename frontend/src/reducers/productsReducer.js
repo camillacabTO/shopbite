@@ -16,7 +16,9 @@ const productListSlice = createSlice({
       if (state.loading === 'pending') {
         state.loading = 'idle';
       }
-      state.products = action.payload;
+      state.products = action.payload.products;
+      state.totalPages = action.payload.totalPages;
+      state.page = action.payload.page;
       state.error = null;
     },
     productListFail(state, action) {

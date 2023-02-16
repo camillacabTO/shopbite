@@ -1,9 +1,25 @@
 import Product from '../models/Product.js';
 
 export const getAllProducts = async (req, res, next) => {
+  const page = Number(req.query.pageNumber) || 1;
+  const pageLength = 4;
+
+  const searchTerm = req.query.product
+    ? {
+        name: {
+          $regex: req.query.product,
+          $options: 'i',
+        },
+      }
+    : {};
+
   try {
-    const products = await Product.find({});
-    res.json(products);
+    const countDocs = await Product.countDocuments({ ...searchTerm });
+    const products = await Product.find({ ...searchTerm })
+      .limit(pageLength)
+      .skip(pageLength * (page - 1));
+
+    res.json({ products, page, totalPages: Math.ceil(countDocs / pageLength) });
   } catch (error) {
     next(error);
   }

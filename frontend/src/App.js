@@ -21,7 +21,9 @@ const App = () => {
       <main className='py-3'>
         <Container>
           <Routes>
-            <Route path='/' element={<Home />} />
+            <Route path='/search/:query' element={<Home />} />
+            <Route path='/search/:page' element={<Home />} />
+            <Route path='/search/:query/page/:page' element={<Home />} />
             <Route path='/order/:id' element={<Order />} />
             <Route path='/product/:id' element={<ProductDetails />} />
             <Route path='/cart/:id?' element={<Cart />} />
@@ -31,6 +33,7 @@ const App = () => {
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<Signup />} />
             <Route path='/profile' element={<Profile />} />
+            <Route path='/' element={<Home />} />
           </Routes>
         </Container>
       </main>

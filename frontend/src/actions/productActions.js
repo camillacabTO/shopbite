@@ -15,15 +15,19 @@ import {
 } from '../reducers/productReducer';
 import { logoutUserRequest } from '../reducers/userReducer';
 
-export const fetchProducts = () => async (dispatch) => {
-  try {
-    dispatch(productListFetch());
-    const { data } = await axios.get('/api/products');
-    dispatch(productListSuccess(data));
-  } catch (error) {
-    dispatch(productListFail(error.message));
-  }
-};
+export const fetchProducts =
+  (query = '', page = '') =>
+  async (dispatch) => {
+    try {
+      dispatch(productListFetch());
+      const { data } = await axios.get(
+        `/api/products?product=${query}&page=${page}`
+      );
+      dispatch(productListSuccess(data));
+    } catch (error) {
+      dispatch(productListFail(error.message));
+    }
+  };
 
 export const fetchProductDetails = (id) => async (dispatch) => {
   try {

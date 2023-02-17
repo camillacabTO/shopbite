@@ -1,18 +1,18 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Container } from 'react-bootstrap';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import Home from './pages/Home';
-import Cart from './pages/Cart';
-import ProductDetails from './pages/ProductDetails';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
-import Profile from './pages/Profile';
-import Shipping from './pages/Shipping';
-import Payment from './pages/Payment';
-import SubmitOrder from './pages/SubmitOrder';
-import Order from './pages/Order';
+import React from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { Container } from 'react-bootstrap'
+import Header from './components/Header'
+import Footer from './components/Footer'
+import Home from './pages/Home'
+import Cart from './pages/Cart'
+import ProductDetails from './pages/ProductDetails'
+import Login from './pages/Login'
+import Signup from './pages/Signup'
+import Profile from './pages/Profile'
+import Shipping from './pages/Shipping'
+import Payment from './pages/Payment'
+import SubmitOrder from './pages/SubmitOrder'
+import Order from './pages/Order'
 
 const App = () => {
   return (
@@ -21,9 +21,9 @@ const App = () => {
       <main className='py-3'>
         <Container>
           <Routes>
+            <Route path='/search/:query/page/:pageNum' element={<Home />} />
             <Route path='/search/:query' element={<Home />} />
-            <Route path='/search/:page' element={<Home />} />
-            <Route path='/search/:query/page/:page' element={<Home />} />
+            <Route path='/page/:pageNum' element={<Home />} />
             <Route path='/order/:id' element={<Order />} />
             <Route path='/product/:id' element={<ProductDetails />} />
             <Route path='/cart/:id?' element={<Cart />} />
@@ -39,7 +39,7 @@ const App = () => {
       </main>
       <Footer />
     </Router>
-  );
-};
+  )
+}
 
-export default App;
+export default App

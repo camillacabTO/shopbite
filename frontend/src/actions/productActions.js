@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from 'axios'
 import {
   productListFetch,
   productListSuccess,
@@ -6,66 +6,66 @@ import {
   addReviewFetch,
   addReviewSuccess,
   addReviewFail,
-} from '../reducers/productsReducer';
+} from '../reducers/productsReducer'
 
 import {
   productDetailsFetch,
   productDetailsSuccess,
   productDetailsFail,
-} from '../reducers/productReducer';
-import { logoutUserRequest } from '../reducers/userReducer';
+} from '../reducers/productReducer'
+import { logoutUserRequest } from '../reducers/userReducer'
 
 export const fetchProducts =
   (query = '', page = '') =>
   async (dispatch) => {
     try {
-      dispatch(productListFetch());
+      dispatch(productListFetch())
       const { data } = await axios.get(
-        `/api/products?product=${query}&page=${page}`
-      );
-      dispatch(productListSuccess(data));
+        `/api/products?product=${query}&pageNum=${page}`
+      )
+      dispatch(productListSuccess(data))
     } catch (error) {
-      dispatch(productListFail(error.message));
+      dispatch(productListFail(error.message))
     }
-  };
+  }
 
 export const fetchProductDetails = (id) => async (dispatch) => {
   try {
-    dispatch(productDetailsFetch());
-    const { data } = await axios.get(`/api/products/${id}`);
-    dispatch(productDetailsSuccess(data));
+    dispatch(productDetailsFetch())
+    const { data } = await axios.get(`/api/products/${id}`)
+    dispatch(productDetailsSuccess(data))
   } catch (error) {
-    dispatch(productDetailsFail(error.message));
+    dispatch(productDetailsFail(error.message))
   }
-};
+}
 
 export const createReview =
   (productId, review) => async (dispatch, getState) => {
     try {
-      dispatch(addReviewFetch());
+      dispatch(addReviewFetch())
 
       const {
         userLogin: { user },
-      } = getState();
+      } = getState()
 
       const config = {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${user.token}`,
         },
-      };
+      }
 
-      await axios.post(`/api/products/${productId}/reviews`, review, config);
+      await axios.post(`/api/products/${productId}/reviews`, review, config)
 
-      dispatch(addReviewSuccess());
+      dispatch(addReviewSuccess())
     } catch (error) {
       const message =
         error.response && error.response.data.message
           ? error.response.data.message
-          : error.message;
+          : error.message
       if (message === 'Not authorized') {
-        dispatch(logoutUserRequest());
+        dispatch(logoutUserRequest())
       }
-      dispatch(addReviewFail(message));
+      dispatch(addReviewFail(message))
     }
-  };
+  }

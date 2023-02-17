@@ -1,25 +1,26 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Row, Col } from 'react-bootstrap';
-import Product from '../components/Product';
-import Message from '../components/Message';
-import Loader from '../components/Loader';
-import { fetchProducts } from '../actions/productActions';
-import SearchBar from '../components/SearchBar';
-import { useParams } from 'react-router-dom';
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Row, Col } from 'react-bootstrap'
+import Product from '../components/Product'
+import Message from '../components/Message'
+import Loader from '../components/Loader'
+import { fetchProducts } from '../actions/productActions'
+import SearchBar from '../components/SearchBar'
+import { useParams } from 'react-router-dom'
+import PaginationTool from '../components/PaginationTool'
 
 const Home = () => {
-  const dispatch = useDispatch();
-  const { loading, error, products } = useSelector(
+  const dispatch = useDispatch()
+  const { loading, error, products, totalPages, page } = useSelector(
     (state) => state.productList
-  );
-  const { page } = useParams();
-  const pageNum = page || 1;
-  const { query } = useParams();
+  )
+  const { pageNum } = useParams()
+  const pageNumber = pageNum || 1
+  const { query } = useParams()
 
   useEffect(() => {
-    dispatch(fetchProducts(query, pageNum));
-  }, [dispatch, query, pageNum]);
+    dispatch(fetchProducts(query, pageNumber))
+  }, [dispatch, query, pageNumber])
 
   return (
     <>
@@ -38,8 +39,13 @@ const Home = () => {
           ))}
         </Row>
       )}
+      <PaginationTool
+        totalPages={totalPages}
+        page={page}
+        query={query ? query : ''}
+      />
     </>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home

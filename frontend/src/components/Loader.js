@@ -1,21 +1,17 @@
 import React from 'react'
-import { Spinner } from 'react-bootstrap'
 
 const Loader = () => {
-  //customize loader
   return (
-    <Spinner
-      role='status'
-      animation='border'
+    <img
       style={{
-        width: '100px',
-        height: '100px',
-        margin: 'auto',
-        display: 'block'
+        width: '150px',
+        height: '150px',
+        margin: '60px auto',
+        display: 'block',
       }}
-    >
-      <span className='sr-only'>Loading</span>
-    </Spinner>
+      alt='Loading'
+      src='/images/Spinner.gif'
+    ></img>
   )
 }
 

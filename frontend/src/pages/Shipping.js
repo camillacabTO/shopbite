@@ -1,29 +1,36 @@
-import React, { useState } from 'react';
-import FormContainer from '../components/FormContainer';
+import React, { useState, useEffect } from 'react'
+import FormContainer from '../components/FormContainer'
 // import CheckoutSteps from '../components/CheckoutSteps';
-import { Form, Button } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Form, Button } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
-import { saveShippingAddress } from '../actions/cartActions';
+import { saveShippingAddress } from '../actions/cartActions'
 
 const Shipping = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { shippingAddress } = useSelector((state) => state.cart);
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { shippingAddress } = useSelector((state) => state.cart)
+  const { user } = useSelector((state) => state.userLogin)
 
-  const [address, setAddress] = useState(shippingAddress?.address || '');
+  const [address, setAddress] = useState(shippingAddress?.address || '')
   const [postalCode, setPostalCode] = useState(
     shippingAddress?.postalCode || ''
-  );
-  const [country, setCountry] = useState(shippingAddress?.country || '');
-  const [city, setCity] = useState(shippingAddress?.city || '');
+  )
+  const [country, setCountry] = useState(shippingAddress?.country || '')
+  const [city, setCity] = useState(shippingAddress?.city || '')
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/login')
+    }
+  }, [navigate, user])
 
   const submitHandler = (e) => {
-    e.preventDefault();
-    dispatch(saveShippingAddress({ address, postalCode, city, country }));
-    navigate('/payment');
-  };
+    e.preventDefault()
+    dispatch(saveShippingAddress({ address, postalCode, city, country }))
+    navigate('/payment')
+  }
 
   return (
     <FormContainer>
@@ -80,7 +87,7 @@ const Shipping = () => {
         </Button>
       </Form>
     </FormContainer>
-  );
-};
+  )
+}
 
-export default Shipping;
+export default Shipping

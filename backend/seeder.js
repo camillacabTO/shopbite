@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import users from './data/users.js'
-import products from './data/products.js'
+import products from './data/newProducts.js'
 import User from './models/user.js'
 import Product from './models/product.js'
 import Order from './models/order.js'
@@ -20,7 +20,7 @@ const importData = async () => {
 
     const adminUser = createdUsers[0]._id
 
-    const sampleProducts = products.map(product => {
+    const sampleProducts = products.map((product) => {
       return { ...product, user: adminUser }
     })
 

@@ -2,7 +2,7 @@ import Product from '../models/Product.js'
 
 export const getAllProducts = async (req, res, next) => {
   const page = Number(req.query.pageNum) || 1
-  const pageLength = 2
+  const pageLength = 6
 
   const searchTerm = req.query.product
     ? {

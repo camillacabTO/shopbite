@@ -1,6 +1,5 @@
-import Order from '../models/order.js';
-import mongoose from 'mongoose';
-const { ObjectId } = mongoose.Types;
+import Order from '../models/order.js'
+import mongoose from 'mongoose'
 
 export const createOrder = async (req, res) => {
   const {
@@ -11,11 +10,11 @@ export const createOrder = async (req, res) => {
     taxPrice,
     shippingPrice,
     totalPrice,
-  } = req.body;
+  } = req.body
 
   if (items && items.length === 0) {
-    res.status(400);
-    throw new Error('No items in your order');
+    res.status(400)
+    throw new Error('No items in your order')
   } else {
     const order = new Order({
       items,
@@ -26,43 +25,42 @@ export const createOrder = async (req, res) => {
       taxPrice,
       shippingPrice,
       totalPrice,
-    });
+    })
 
-    const createdOrder = await order.save();
-    res.status(201).json(createdOrder);
+    const createdOrder = await order.save()
+    res.status(201).json(createdOrder)
   }
-};
+}
 
 export const getOrderById = async (req, res) => {
   const order = await Order.findById(req.params.id).populate(
     'user',
     'email name'
-  );
-  console.log('order', order);
+  )
 
   if (order) {
-    res.json(order);
+    res.json(order)
   } else {
-    res.status(404);
-    throw new Error('No order found');
+    res.status(404)
+    throw new Error('No order found')
   }
-};
+}
 
 export const payOrder = async (req, res) => {
-  const order = await Order.findById(req.params.id);
+  const order = await Order.findById(req.params.id)
 
   if (order) {
-    order.isPaid = true;
-    order.paidAt = Date.now();
-    console.log('pay updated');
+    order.isPaid = true
+    order.paidAt = Date.now()
+    console.log('pay updated')
     // simulates order being paid
-    const updatedPaidOrder = await order.save();
-    res.json(updatedPaidOrder);
+    const updatedPaidOrder = await order.save()
+    res.json(updatedPaidOrder)
   } else {
-    res.status(404);
-    throw new Error('Order not found');
+    res.status(404)
+    throw new Error('Order not found')
   }
-};
+}
 
 // // @desc    Update order to delivered
 // // @route   GET /api/orders/:id/deliver
@@ -84,9 +82,9 @@ export const payOrder = async (req, res) => {
 // });
 
 export const getUserOrders = async (req, res) => {
-  const orders = await Order.find({ user: req.user._id });
-  res.json(orders);
-};
+  const orders = await Order.find({ user: req.user._id })
+  res.json(orders)
+}
 
 // @desc    Get all orders
 // @route   GET /api/orders

@@ -1,52 +1,57 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import Message from '../components/Message';
-import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import { createOrder } from '../actions/orderActions';
-import { useNavigate } from 'react-router-dom';
-import { createOrderReset } from '../reducers/orderReducer';
-import { userDetailsReset } from '../reducers/userReducer';
+import React, { useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import Message from '../components/Message'
+import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux'
+import { createOrder } from '../actions/orderActions'
+import { useNavigate } from 'react-router-dom'
+import { createOrderReset } from '../reducers/orderReducer'
+import { userDetailsReset } from '../reducers/userReducer'
 
 // import { ORDER_CREATE_RESET } from '../constants/orderConstants'
 // import { USER_DETAILS_RESET } from '../constants/userConstants'
 
 const SubmitOrder = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
-  const cart = useSelector((state) => state.cart);
+  const cart = useSelector((state) => state.cart)
+  const { user } = useSelector((state) => state.userLogin)
 
   if (!cart.shippingAddress.address) {
-    navigate('/shipping');
+    navigate('/shipping')
   } else if (!cart.paymentMethod) {
-    navigate('/payment');
+    navigate('/payment')
   }
   const addDecimals = (num) => {
-    return (Math.round(num * 100) / 100).toFixed(2);
-  };
+    return (Math.round(num * 100) / 100).toFixed(2)
+  }
 
   const itemsPrice = addDecimals(
     cart.itemsInCart.reduce((acc, item) => acc + item.price * item.quantity, 0)
-  );
+  )
 
-  const shippingPrice = addDecimals(itemsPrice > 100 ? 0 : 100);
-  const taxPrice = addDecimals(Number((0.13 * itemsPrice).toFixed(2)));
+  const shippingPrice = addDecimals(itemsPrice > 100 ? 0 : 100)
+  const taxPrice = addDecimals(Number((0.13 * itemsPrice).toFixed(2)))
   const totalPrice = (
     Number(itemsPrice) +
     Number(shippingPrice) +
     Number(taxPrice)
-  ).toFixed(2);
+  ).toFixed(2)
 
-  const { order, success, error } = useSelector((state) => state.orderCreate);
+  const { order, success, error } = useSelector((state) => state.orderCreate)
 
   useEffect(() => {
-    if (success) {
-      navigate(`/order/${order._id}`);
-      dispatch(createOrderReset());
-      dispatch(userDetailsReset());
+    if (!user) {
+      navigate('/login')
     }
-  }, [success, navigate, order._id]);
+
+    if (success) {
+      navigate(`/order/${order._id}`)
+      dispatch(createOrderReset())
+      dispatch(userDetailsReset())
+    }
+  }, [success, navigate, order._id])
 
   const submitOrderHandler = () => {
     dispatch(
@@ -59,8 +64,8 @@ const SubmitOrder = () => {
         taxPrice,
         totalPrice,
       })
-    );
-  };
+    )
+  }
 
   return (
     <>
@@ -164,7 +169,7 @@ const SubmitOrder = () => {
         </Col>
       </Row>
     </>
-  );
-};
+  )
+}
 
-export default SubmitOrder;
+export default SubmitOrder

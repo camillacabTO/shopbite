@@ -1,51 +1,51 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap'
 // import { PayPalButton } from 'react-paypal-button-v2';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
-import { orderPayReset } from '../reducers/orderReducer.js';
-import Loader from '../components/Loader';
-import Message from '../components/Message';
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate, useParams } from 'react-router-dom'
+import { orderPayReset } from '../reducers/orderReducer.js'
+import Loader from '../components/Loader'
+import Message from '../components/Message'
 
-import { getOrderDetails, payOrder } from '../actions/orderActions';
-import { cartReset } from '../reducers/cartReducer';
+import { getOrderDetails, payOrder } from '../actions/orderActions'
+import { cartReset } from '../reducers/cartReducer'
 
 const Order = () => {
-  const { id: orderId } = useParams();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const { id: orderId } = useParams()
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
-  const { order, loading, error } = useSelector((state) => state.orderDetails);
+  const { order, loading, error } = useSelector((state) => state.orderDetails)
 
   const { loading: payLoading, success: paymentSuccess } = useSelector(
     (state) => state.orderPay
-  );
+  )
 
-  const { user } = useSelector((state) => state.userLogin);
+  const { user } = useSelector((state) => state.userLogin)
 
   const addDecimals = (num) => {
-    return (Math.round(num * 100) / 100).toFixed(2);
-  };
+    return (Math.round(num * 100) / 100).toFixed(2)
+  }
 
   useEffect(() => {
     if (!user) {
-      navigate('/login');
+      navigate('/login')
     }
     // if (!order || paymentSuccess || successDeliver || order._id !== orderId) {
     // //   dispatch({ type: ORDER_PAY_RESET });
     // //   dispatch({ type: ORDER_DELIVER_RESET });
     if (!order || paymentSuccess) {
-      dispatch(orderPayReset());
-      dispatch(getOrderDetails(orderId));
+      dispatch(orderPayReset())
+      dispatch(getOrderDetails(orderId))
     }
-    dispatch(getOrderDetails(orderId));
-  }, [dispatch, orderId, navigate, user, paymentSuccess]);
+    dispatch(getOrderDetails(orderId))
+  }, [dispatch, orderId, navigate, user, paymentSuccess])
 
   const paymentHandler = () => {
-    dispatch(payOrder(orderId));
-    dispatch(cartReset());
-  };
+    dispatch(payOrder(orderId))
+    dispatch(cartReset())
+  }
 
   return loading === 'pending' ? (
     <Loader />
@@ -193,7 +193,7 @@ const Order = () => {
         </Col>
       </Row>
     </>
-  );
-};
+  )
+}
 
-export default Order;
+export default Order

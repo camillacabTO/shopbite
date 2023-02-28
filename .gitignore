@@ -5,7 +5,8 @@ node_modules
 node_modules/
 /.pnp
 .pnp.js
-backend/data
+backend/data/
+backend/seeder.js
 seeder.js
 
 # testing

@@ -8,9 +8,6 @@ import { useNavigate } from 'react-router-dom'
 import { createOrderReset } from '../reducers/orderReducer'
 import { userDetailsReset } from '../reducers/userReducer'
 
-// import { ORDER_CREATE_RESET } from '../constants/orderConstants'
-// import { USER_DETAILS_RESET } from '../constants/userConstants'
-
 const SubmitOrder = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()

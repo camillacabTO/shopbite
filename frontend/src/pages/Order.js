@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap'
-// import { PayPalButton } from 'react-paypal-button-v2';
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { orderPayReset } from '../reducers/orderReducer.js'
@@ -32,9 +31,7 @@ const Order = () => {
     if (!user) {
       navigate('/login')
     }
-    // if (!order || paymentSuccess || successDeliver || order._id !== orderId) {
-    // //   dispatch({ type: ORDER_PAY_RESET });
-    // //   dispatch({ type: ORDER_DELIVER_RESET });
+
     if (!order || paymentSuccess) {
       dispatch(orderPayReset())
       dispatch(getOrderDetails(orderId))
@@ -173,21 +170,6 @@ const Order = () => {
                   )}
                 </ListGroup.Item>
               )}
-              {/* {loadingDeliver && <Loader />}
-              {userInfo &&
-                userInfo.isAdmin &&
-                order.isPaid &&
-                !order.isDelivered && (
-                  <ListGroup.Item>
-                    <Button
-                      type='button'
-                      className='btn btn-block'
-                      onClick={deliverHandler}
-                    >
-                      Mark As Delivered
-                    </Button>
-                  </ListGroup.Item>
-                )} */}
             </ListGroup>
           </Card>
         </Col>

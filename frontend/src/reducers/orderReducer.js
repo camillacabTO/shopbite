@@ -28,6 +28,7 @@ const createOrderSlice = createSlice({
         state.loading = 'idle'
       }
       state.error = action.payload
+      state.success = false
     },
     createOrderReset(state) {
       if (state.loading === 'pending') {
@@ -36,6 +37,7 @@ const createOrderSlice = createSlice({
       state.error = null
       state.updated = false
       state.order = {}
+      state.success = false
     },
   },
 })

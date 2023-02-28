@@ -1,45 +1,32 @@
-import React, { useEffect } from 'react';
-import {
-  Row,
-  Col,
-  ListGroup,
-  Card,
-  Button,
-  Image,
-  Form,
-} from 'react-bootstrap';
-import Message from '../components/Message';
-import { addToCart, removeFromCart } from '../actions/cartActions';
-import {
-  Link,
-  useParams,
-  useNavigate,
-  useSearchParams,
-} from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect } from 'react'
+import { Row, Col, ListGroup, Card, Button, Image, Form } from 'react-bootstrap'
+import Message from '../components/Message'
+import { addToCart, removeFromCart } from '../actions/cartActions'
+import { Link, useParams, useNavigate, useSearchParams } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
 
 const Cart = () => {
-  const [searchParams] = useSearchParams();
-  const qty = searchParams.get('qty') ? searchParams.get('qty') : 1;
-  const navigate = useNavigate();
-  const { id: productID } = useParams();
-  const dispatch = useDispatch();
-  const { itemsInCart } = useSelector((state) => state.cart);
+  const [searchParams] = useSearchParams()
+  const qty = searchParams.get('qty') ? searchParams.get('qty') : 1
+  const navigate = useNavigate()
+  const { id: productID } = useParams()
+  const dispatch = useDispatch()
+  const { itemsInCart } = useSelector((state) => state.cart)
 
   useEffect(() => {
     if (productID) {
-      dispatch(addToCart(productID, qty));
+      dispatch(addToCart(productID, qty))
     }
-  }, [dispatch, productID, qty]);
+  }, [dispatch, productID, qty])
 
   const handleCheckout = () => {
-    navigate('/shipping');
+    navigate('/shipping')
     // if user is logged in will go to shipping, if not, to the login page
-  };
+  }
 
   const removeItemHandler = (id) => {
-    dispatch(removeFromCart(id));
-  };
+    dispatch(removeFromCart(id))
+  }
 
   return (
     <Row>
@@ -74,7 +61,7 @@ const Cart = () => {
                         )
                       }
                     >
-                      {[...Array(item.countInStock).keys()].map((item) => (
+                      {[...Array(item.stock).keys()].map((item) => (
                         <option key={item + 1} value={item + 1}>
                           {item + 1}
                         </option>
@@ -103,7 +90,10 @@ const Cart = () => {
               <h2>Subtotal</h2>
               <p>
                 Number of Items:{' '}
-                {itemsInCart.reduce((acc, item) => acc + item.quantity, 0)}
+                {itemsInCart.reduce(
+                  (acc, item) => acc + Number(item.quantity),
+                  0
+                )}
               </p>
               <p>
                 $
@@ -126,7 +116,7 @@ const Cart = () => {
         </Card>
       </Col>
     </Row>
-  );
-};
+  )
+}
 
-export default Cart;
+export default Cart

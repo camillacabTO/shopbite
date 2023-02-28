@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
@@ -6,7 +6,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { orderPayReset } from '../reducers/orderReducer.js'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
-
 import { getOrderDetails, payOrder } from '../actions/orderActions'
 import { cartReset } from '../reducers/cartReducer'
 
@@ -37,6 +36,7 @@ const Order = () => {
       dispatch(getOrderDetails(orderId))
     }
     dispatch(getOrderDetails(orderId))
+    // eslint-disable-next-line
   }, [dispatch, orderId, navigate, user, paymentSuccess])
 
   const paymentHandler = () => {
@@ -113,7 +113,7 @@ const Order = () => {
                         </Col>
                         <Col md={4}>
                           {item.quantity} x ${item.price} = $
-                          {item.quantity * item.price}
+                          {(item.quantity * item.price).toFixed(2)}
                         </Col>
                       </Row>
                     </ListGroup.Item>

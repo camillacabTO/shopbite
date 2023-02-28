@@ -13,6 +13,7 @@ const SubmitOrder = () => {
   const navigate = useNavigate()
 
   const cart = useSelector((state) => state.cart)
+  const { order, success, error } = useSelector((state) => state.orderCreate)
   const { user } = useSelector((state) => state.userLogin)
 
   if (!cart.shippingAddress.address) {
@@ -20,14 +21,13 @@ const SubmitOrder = () => {
   } else if (!cart.paymentMethod) {
     navigate('/payment')
   }
+
   const addDecimals = (num) => {
     return (Math.round(num * 100) / 100).toFixed(2)
   }
-
   const itemsPrice = addDecimals(
     cart.itemsInCart.reduce((acc, item) => acc + item.price * item.quantity, 0)
   )
-
   const shippingPrice = addDecimals(itemsPrice > 100 ? 0 : 100)
   const taxPrice = addDecimals(Number((0.13 * itemsPrice).toFixed(2)))
   const totalPrice = (
@@ -35,8 +35,6 @@ const SubmitOrder = () => {
     Number(shippingPrice) +
     Number(taxPrice)
   ).toFixed(2)
-
-  const { order, success, error } = useSelector((state) => state.orderCreate)
 
   useEffect(() => {
     if (!user) {
@@ -48,7 +46,8 @@ const SubmitOrder = () => {
       dispatch(createOrderReset())
       dispatch(userDetailsReset())
     }
-  }, [success, navigate, order._id])
+    // eslint-disable-next-line
+  }, [success, navigate])
 
   const submitOrderHandler = () => {
     dispatch(
@@ -108,7 +107,7 @@ const SubmitOrder = () => {
                         </Col>
                         <Col md={4}>
                           {item.quantity} x ${item.price} = $
-                          {item.quantity * item.price}
+                          {(item.quantity * item.price).toFixed(2)}
                         </Col>
                       </Row>
                     </ListGroup.Item>

@@ -13,15 +13,16 @@ const Payment = () => {
   if (!shippingAddress.address) {
     navigate('/shipping')
   }
-  const [paymentMethod, setPaymentMethod] = useState('Paypal')
+  const [paymentMethod, setPaymentMethod] = useState('CreditCard')
+  console.log('payment method', paymentMethod)
 
   const onOptionChange = (e) => {
-    setPaymentMethod(e.target.value)
+    setPaymentMethod((prev) => e.target.value)
+    console.log('payment method', paymentMethod)
   }
 
   const submitHandler = (e) => {
     e.preventDefault()
-    console.log(paymentMethod)
     dispatch(savePaymentMethod(paymentMethod))
     navigate('/submitorder')
   }

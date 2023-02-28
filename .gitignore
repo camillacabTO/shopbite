@@ -13,7 +13,7 @@ seeder.js
 /coverage
 
 # productions
-/frontend/build
+# /frontend/build
 
 # misc
 .DS_Store

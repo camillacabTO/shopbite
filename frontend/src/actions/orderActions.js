@@ -31,7 +31,6 @@ export const createOrder = (order) => async (dispatch, getState) => {
     }
 
     const { data } = await axios.post(`/api/orders`, order, config)
-    console.log('created order', data)
 
     dispatch(createOrderSuccess(data))
     //cart clean items

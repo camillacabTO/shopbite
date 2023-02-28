@@ -14,11 +14,9 @@ const Payment = () => {
     navigate('/shipping')
   }
   const [paymentMethod, setPaymentMethod] = useState('CreditCard')
-  console.log('payment method', paymentMethod)
 
   const onOptionChange = (e) => {
     setPaymentMethod((prev) => e.target.value)
-    console.log('payment method', paymentMethod)
   }
 
   const submitHandler = (e) => {

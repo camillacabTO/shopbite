@@ -1,4 +1,4 @@
-import Product from '../models/Product.js'
+import Product from '../models/product.js'
 
 export const getAllProducts = async (req, res, next) => {
   const page = Number(req.query.pageNum) || 1

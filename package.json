@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node backend/server.js",
-    "railway:build": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend",
+    "frontend:install": "npm install --prefix frontend",
     "server": "nodemon backend/server",
     "client": "npm start --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
